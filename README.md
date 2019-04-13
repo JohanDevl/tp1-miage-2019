@@ -96,6 +96,8 @@ Pour les besoins du TP, nous utilisons ici les notions de Scenario Outline, de D
 
 1) Compléter la classe `MailComparaisonStep`
 2) Lancer le test `CucumberRunnerTest` en junit
+Un problème survient lors de la comparaison des dates pour avoir le mail le plus récent. Le troisième scénario n'est pas bon pour le trie de deux mails avec le même objet, la même importance, le même statut mais une date différente.
+
 3) Ouvrir dans un navigateur `target/cucumber/index.html`
 4) Ajouter des cas de test dans la feature `trier_mail.feature`. Notez qu'aucun nouveau code n'a été nécessaire pour ajouter ces tests contrairement à un TU.
 

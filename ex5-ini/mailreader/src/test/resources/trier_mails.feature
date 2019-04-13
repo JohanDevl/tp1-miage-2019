@@ -15,6 +15,7 @@ When je trie
 Then le tri doit retourner "<resu>"
 
 # Les resulats peuvent être : MAIL1_AVANT, MAIL1_APRES, EGAUX
+# problème pour le 3e exemple pour le trie avec la date
 	
 Examples:
 | important1 | important2 | statut1    | statut2 | sujet1  		    | sujet2        | date1                | date2                | resu        |
@@ -37,4 +38,19 @@ Then la liste ordonnée doit être :
 | false      | LU		 		 | bbbbb					| 2016-12-01T14:03:00Z | 
 | false      | PAS_ENVOYE 		 | aaaaa					| 2017-01-01T14:03:00Z |
 
+Scenario: ordre d'une autre liste de mails
+Given les mails :
+| important  | statut   		 | sujet			  		| date                 |
+| true       | LU 		 		 | ccccc					| 2018-01-01T14:03:00Z |
+| false      | LU		 		 | lllll					| 2018-01-01T14:03:00Z |
+| true       | PAS_ENVOYE 		 | aaaaa					| 2019-01-01T14:03:00Z |
+| true       | LU       		 | bbbbb					| 2019-01-01T14:03:00Z |
 
+
+When je trie
+Then la liste ordonnée doit être :
+| important  | statut   		 | sujet			  		| date                 |
+| true       | LU       		 | bbbbb					| 2019-01-01T14:03:00Z |
+| true       | LU 				 | ccccc					| 2018-01-01T14:03:00Z |
+| true       | PAS_ENVOYE 		 | aaaaa					| 2019-01-01T14:03:00Z |
+| false      | LU		 		 | lllll					| 2018-01-01T14:03:00Z |

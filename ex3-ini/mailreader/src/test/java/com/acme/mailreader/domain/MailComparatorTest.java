@@ -3,10 +3,13 @@ package com.acme.mailreader.domain;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+import java.time.Instant;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import com.acme.mailreader.domain.Mail;
+import com.acme.mailreader.domain.Mail.Statut;
 import com.acme.mailreader.domain.MailComparator;
 
 public class MailComparatorTest {
@@ -32,9 +35,92 @@ public class MailComparatorTest {
 		assertThat(comparator.compare(mail1, mail2), is(0));
 	}
 	
-	//TODO
 	//Autres tests unitaires
 	
+	@Test
+	public final void egauxSiToutLesChampsEgaux() throws DateIncorrecteException {
+		Instant i = Instant.now();
+		Mail mail1 = new Mail();
+		mail1.setDate(i);
+		mail1.setImportant(true);
+		mail1.setStatut(Statut.SENT);
+		mail1.setSujet("test");
+			
+		Mail mail2 = new Mail();
+		mail2.setDate(i);
+		mail2.setImportant(true);
+		mail2.setStatut(Statut.SENT);
+		mail2.setSujet("test");
+		assertThat(comparator.compare(mail1, mail2), is(0));
+	}
+	
+	@Test
+	public final void nonEgauxSiSujetDifferent() throws DateIncorrecteException {
+		Instant i = Instant.now();
+		Mail mail1 = new Mail();
+		mail1.setDate(i);
+		mail1.setImportant(false);
+		mail1.setStatut(Statut.SENT);
+		mail1.setSujet("test");
+			
+		Mail mail2 = new Mail();
+		mail2.setDate(i);
+		mail2.setImportant(false);
+		mail2.setStatut(Statut.SENT);
+		mail2.setSujet("test2");
+		assertThat(comparator.compare(mail1, mail2), is(-1));
+	}
+	
+	@Test
+	public final void nonEgauxSiImportanceDifferente() throws DateIncorrecteException {
+		Instant i = Instant.now();
+		Mail mail1 = new Mail();
+		mail1.setDate(i);
+		mail1.setImportant(true);
+		mail1.setStatut(Statut.SENT);
+		mail1.setSujet("test");
+			
+		Mail mail2 = new Mail();
+		mail2.setDate(i);
+		mail2.setImportant(false);
+		mail2.setStatut(Statut.SENT);
+		mail2.setSujet("test");
+		assertThat(comparator.compare(mail1, mail2), is(-1));
+	}
+	
+	@Test
+	public final void nonEgauxSiStatutDifferent() throws DateIncorrecteException {
+		Instant i = Instant.now();
+		Mail mail1 = new Mail();
+		mail1.setDate(i);
+		mail1.setImportant(false);
+		mail1.setStatut(Statut.SENT);
+		mail1.setSujet("test");
+			
+		Mail mail2 = new Mail();
+		mail2.setDate(i);
+		mail2.setImportant(false);
+		mail2.setStatut(Statut.UNSENT);
+		mail2.setSujet("test");
+		assertThat(comparator.compare(mail1, mail2), is(-1));
+	}
+	
+	@Test
+	public final void nonEgauxEtMail2Premier() throws DateIncorrecteException {
+		Instant i = Instant.now();
+		Mail mail1 = new Mail();
+		mail1.setDate(i);
+		mail1.setImportant(false);
+		mail1.setStatut(Statut.READ);
+		mail1.setSujet("test");
+			
+		Mail mail2 = new Mail();
+		mail2.setDate(i);
+		mail2.setImportant(true);
+		mail2.setStatut(Statut.READ);
+		mail2.setSujet("test");
+		assertThat(comparator.compare(mail1, mail2), is(1));
+	}
 	
 	
 }
